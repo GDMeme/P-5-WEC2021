@@ -117,11 +117,26 @@ int main(){
     }
 
     //std::cout << std::endl;    
-
-    for (int j = 0; j < 10; j++){
-        std::cout << words[j] << " = " << calculateTime(words[j], lengths[j]) << "s" << std::endl;
-
+    int shortestTimes[11]{};
+    int nextEmptyIndex{1};
+    if (calculateTime(words[0], lengths[0]) == 0){
+        shortestTimes[0] = INT_MAX;
+    } else{
+        shortestTimes[0] = calculateTime(words[0], lengths[0]);
     }
-
+    for (int j = 1; j < 10; j++){
+        if (calculateTime(words[j], lengths[j]) != 0){
+            if (calculateTime(words[j], lengths[j]) < shortestTimes[0]){
+                shortestTimes[0] = calculateTime(words[j], lengths[j]);
+            }
+        }
+    }
+    for (int k = 0; k < 10; k++){
+        if (shortestTimes[0] == INT_MAX){
+            break;
+        } else if (calculateTime(words[k], lengths[k]) == shortestTimes[0]){
+            std::cout << words[k] << " = " << shortestTimes[0] << "s" << std::endl;
+        }
+    }
 }
 
