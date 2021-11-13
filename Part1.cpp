@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <cctype>
 
 int main();
 void parseWords();
@@ -50,11 +51,16 @@ double calculateTime(std::string word, int length) {
     int lastButtonPressed{};
     bool firstLetter{true};
     int j{};
+    int capitalCount{};
     // Check each letter in word 
     for(int i{}; i < length; ++i) {
-
-        // Check each button
+        // Add 2 seconds for every uppercase letter
+        if (isupper(word[i])){ 
+            word[i] = word[i] + 32;
+            capitalCount += 1;
+        }
         bool letterFound{false};
+        // Check each button
         if(!letterFound) {
             for(j = 2; j < 12; ++j) {
                 int buttonPressCount{0};
@@ -93,6 +99,7 @@ double calculateTime(std::string word, int length) {
         }
     }
     //std::cout << std::endl;
+    totalTime = totalTime + (2 * capitalCount);
     return totalTime;
 }
 
@@ -106,13 +113,13 @@ int main(){
     int lengths[10]{};
     for (int i = 0; i < 10; i++){
         lengths[i] = getWordLength(words[i]);
-        std::cout << getWordLength(words[i]);
+        //std::cout << getWordLength(words[i]);
     }
 
-    std::cout << std::endl;    
+    //std::cout << std::endl;    
 
     for (int j = 0; j < 10; j++){
-        std::cout << calculateTime(words[j], lengths[j]) << std::endl;
+        std::cout << words[j] << " = " << calculateTime(words[j], lengths[j]) << "s" << std::endl;
 
     }
 
