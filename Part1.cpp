@@ -4,7 +4,7 @@
 int main();
 void parseWords();
 int getWordLength(std::string word);
-int calculateTime();
+double calculateTime();
 
 /* Parse words from text files */
 void parseWords(std::string words[]) {
@@ -31,13 +31,13 @@ int getWordLength(std::string word) {
 }
 
 /* Calculates time to type a word */
-int calculateTime(std::string word, int length) {
+double calculateTime(std::string word, int length) {
     std::string buttons[16][4] = {
         {"0", "space"}, 
         {"voicemail"},   {"a", "b", "c"}, {"d", "e", "f"}, 
         {"g", "h", "i"}, {"j", "k", "l"}, {"m", "n", "o"}, 
         {"p", "q", "r", "s"}, {"t", "u", "v"}, {"w", "x", "y", "z"},  
-        {"*"}, {"#"}, {"call"}, {"middle"}, {"L"}, {"R"}
+        {"*"}, {"#"}, {"call"}, {"middle"}, {"Left"}, {"Right"}
     };
     int buttonLengths[16] = {
         2, 
@@ -46,28 +46,45 @@ int calculateTime(std::string word, int length) {
         4, 3, 4,  
         1, 1, 1, 1, 1, 1
     };
-    int totalTime{}, lastButtonPressed{};
-
+    double totalTime{};
+    int lastButtonPressed{};
+    bool firstLetter{true};
+    int j{};
     // Check each letter in word 
     for(int i{}; i < length; ++i) {
-        
+
         // Check each button
         bool letterFound{false};
         if(!letterFound) {
-            for(int j{2}; j < 10; ++j) {
-                int buttonPressCount{};
-
+            for(j = 2; j < 12; ++j) {
+                int buttonPressCount{0};
+                
                 // Check each letter in button to match letter in word
                 if(!letterFound) {
                     for(int k{}; k < buttonLengths[j]; ++k) {
 
                         if(word[i] != buttons[j][k][0]) {
+                            //std::cout << "fklajf" << std::endl;
                             ++buttonPressCount;
                         } else {
-                            ++buttonPressCount;
-                            totalTime += buttonPressCount;
-                            std::cout << buttonPressCount;
+                            //std::cout << "yo" << std::endl;
+                            //std::cout << "first letter status" << firstLetter;
+                            if (firstLetter == false){
+                                //std::cout << "supduao" << std::endl;
+                                ++buttonPressCount;
+                                if (lastButtonPressed == j){
+                                    totalTime += 0.5 + ((buttonPressCount - 1) * 0.25);
+                                    //std::cout << "sup" << std::endl;
+                                } else{
+                                    totalTime += buttonPressCount * 0.25;
+                                }
+                                //std::cout << totalTime;
+                            } else{
+                                //std::cout << totalTime;
+                            }
                             letterFound = true;
+                            lastButtonPressed = j;
+                            firstLetter = false;
                             break;
                         }
                     }
@@ -75,7 +92,7 @@ int calculateTime(std::string word, int length) {
             }
         }
     }
-    std::cout << std::endl;
+    //std::cout << std::endl;
     return totalTime;
 }
 
@@ -95,7 +112,7 @@ int main(){
     std::cout << std::endl;    
 
     for (int j = 0; j < 10; j++){
-        std::cout << calculateTime(words[j], lengths[j]);
+        std::cout << calculateTime(words[j], lengths[j]) << std::endl;
 
     }
 
