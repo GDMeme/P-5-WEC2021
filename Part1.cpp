@@ -64,29 +64,19 @@ double calculateTime(std::string word, int length) {
         if(!letterFound) {
             for(j = 2; j < 12; ++j) {
                 int buttonPressCount{0};
-                
                 // Check each letter in button to match letter in word
                 if(!letterFound) {
                     for(int k{}; k < buttonLengths[j]; ++k) {
-
                         if(word[i] != buttons[j][k][0]) {
-                            //std::cout << "fklajf" << std::endl;
                             ++buttonPressCount;
                         } else {
-                            //std::cout << "yo" << std::endl;
-                            //std::cout << "first letter status" << firstLetter;
                             if (firstLetter == false){
-                                //std::cout << "supduao" << std::endl;
                                 ++buttonPressCount;
                                 if (lastButtonPressed == j){
                                     totalTime += 0.5 + ((buttonPressCount - 1) * 0.25);
-                                    //std::cout << "sup" << std::endl;
                                 } else{
                                     totalTime += buttonPressCount * 0.25;
                                 }
-                                //std::cout << totalTime;
-                            } else{
-                                //std::cout << totalTime;
                             }
                             letterFound = true;
                             lastButtonPressed = j;
@@ -98,7 +88,6 @@ double calculateTime(std::string word, int length) {
             }
         }
     }
-    //std::cout << std::endl;
     totalTime = totalTime + (2 * capitalCount);
     return totalTime;
 }
@@ -113,11 +102,8 @@ int main(){
     int lengths[10]{};
     for (int i = 0; i < 10; i++){
         lengths[i] = getWordLength(words[i]);
-        //std::cout << getWordLength(words[i]);
-    }
-
-    //std::cout << std::endl;    
-    int shortestTimes{};
+    }   
+    double shortestTimes{};
     int nextEmptyIndex{1};
     if (calculateTime(words[0], lengths[0]) == 0){
         shortestTimes = INT_MAX;
